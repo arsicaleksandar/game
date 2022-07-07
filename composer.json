@@ -1,0 +1,6 @@
+{
+    "require": {
+        "doctrine/doctrine-bundle": "^2.7",
+        "doctrine/orm": "^2.12"
+    }
+}
