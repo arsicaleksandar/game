@@ -27,6 +27,8 @@ class GameRepository extends ServiceEntityRepository implements GameRepositoryIn
             ->setParameter('from', $this->startingDayOfGivenWeek($gameTime))
             ->setParameter('to', $this->endingDayOfGivenWeek($gameTime));
 
+        //dd($qb->getQuery()->getSql(),$qb->getParameters());
+
         return $qb->getQuery()->getResult();
     }
 

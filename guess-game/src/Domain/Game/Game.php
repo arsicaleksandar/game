@@ -9,12 +9,13 @@ use Doctrine\Common\Collections\Collection;
 use Exception;
 use Guess\Domain\League\League;
 use Guess\Domain\Player\Guess;
+use Guess\Domain\Player\Player;
 use Guess\Domain\Team\Team;
 
 class Game
 {
     private int $id;
-    private string $score;
+    private ?string $score;
     private Team $homeTeam;
     private Team $awayTeam;
     private DateTimeInterface $gameTime;
@@ -38,7 +39,7 @@ class Game
         return $this;
     }
 
-    public function getScore(): string
+    public function getScore(): ?string
     {
         return $this->score;
     }
@@ -129,6 +130,4 @@ class Game
     public function addGuess(Guess $guess) {
         $this->guesses->add($guess);
     }
-
-
 }

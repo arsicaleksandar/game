@@ -9,14 +9,18 @@ use Guess\Domain\League\League;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Guess\Domain\Player\PlayerRepositoryInterface;
 
 class ListController extends AbstractController
 {
+ 
+
     public function __construct(
         private ListGameHandler $listGameHandler
     )
     {
     }
+    
 
     /**
      * @param Request $request
@@ -25,6 +29,10 @@ class ListController extends AbstractController
      */
     public function index(Request $request): JsonResponse
     {
+
+
+
+
         $games = $this->listGameHandler->handle(
             $request->get('week'),
             $request->get('league')
@@ -43,7 +51,6 @@ class ListController extends AbstractController
                 'gameTime' => $game->getGameTime()->format('H:i'),
                 'score' => $game->getScore(),
                 'day' => $game->getGameTime()->format('l'),
-                'guess' => $game->hasPlayerGuessed($this->getUser() ?? null)
             ];
         }
 

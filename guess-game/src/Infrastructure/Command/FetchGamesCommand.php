@@ -38,7 +38,7 @@ class FetchGamesCommand extends Command
             ['days' => $input->getArgument('days')]
         );
         $count = 0;
-
+        
         foreach ($games as $game) {     
             try {
                 $checkInDatabase = $this->createGameHandler->handle($game);
