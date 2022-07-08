@@ -7,12 +7,14 @@ use Exception;
 use Guess\Domain\Game\Game;
 use Guess\Domain\Game\GameRepositoryInterface;
 use Guess\Domain\Team\TeamRepositoryInterface;
+use Guess\Domain\League\LeagueRepositoryInterface;
 
 class GameOverHandler
 {
     public function __construct(
         private GameRepositoryInterface $gameRepository,
-        private TeamRepositoryInterface $teamRepository
+        private TeamRepositoryInterface $teamRepository,
+        private LeagueRepositoryInterface $leagueRepository
     )
     {
     }
@@ -23,38 +25,39 @@ class GameOverHandler
      */
     public function handle(array $gameFromApi) : bool
     {
-        // if (!isset($gameFromApi['score'])) {
-        //     throw new Exception('Need score to finish the game');
-        // }
-
+        
         $homeTeam = $this->teamRepository->findOneBy(['name' => $gameFromApi['homeTeam']]);
         $awayTeam = $this->teamRepository->findOneBy(['name' => $gameFromApi['awayTeam']]);
+        $league = $this->leagueRepository->findOneBy(['leagueApiId' => $gameFromApi['leagueApiId']]);
+
         $valid = true;
-        // if (!$homeTeam) {
-        //     throw new Exception($gameFromApi['homeTeam']. ' is not the part of our database');
-        // }
-
-        // if (!$awayTeam) {
-        //     throw new Exception($gameFromApi['awayTeam']. ' is not the part of our database');
-        // }
-
-        if(!$homeTeam || !$awayTeam)
+        if(!$homeTeam || !$awayTeam || !$league || !$gameFromApi['score'])
         {
             $valid = false;  
+            
         }
 
-        /** @var Game $game */
-        $game = $this->gameRepository->findOneBy(
-            [
-                'homeTeam' => $homeTeam,
-                'awayTeam' => $awayTeam,
-                'gameTime' => new DateTimeImmutable($gameFromApi['gameTime'])
-            ]
-        );
 
-        if ($game) {
-            $game->completed($gameFromApi['score']);
-            $this->gameRepository->save($game);
+        /** @var Game $game */
+        // $game = $this->gameRepository->findOneBy(
+        //     [
+        //         'homeTeam' => $homeTeam,
+        //         'awayTeam' => $awayTeam,
+        //         'gameTime' => new DateTimeImmutable($gameFromApi['gameTime'])
+        //     ]
+        // );
+
+        if ($valid) {
+
+            $gameTime = new DateTimeImmutable($gameFromApi['gameTime']);
+            $this->gameRepository->save(
+                (new Game())
+                    ->setHomeTeam($homeTeam)
+                    ->setLeague($league)
+                    ->setAwayTeam($awayTeam)
+                    ->setGameTime($gameTime)
+                    ->setScore($gameFromApi['score'] ? $gameFromApi['score'] : null)
+            );
         }
 
         return $valid;

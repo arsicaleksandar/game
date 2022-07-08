@@ -44,7 +44,7 @@ class Game
         return $this->score;
     }
 
-    public function setScore(string $score): self
+    public function setScore(string $score = null): self
     {
         $this->score = $score;
 
