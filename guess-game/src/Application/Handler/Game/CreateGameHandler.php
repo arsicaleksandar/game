@@ -30,10 +30,8 @@ class CreateGameHandler
         $league = $this->leagueRepository->findOneBy(['leagueApiId' => $game['leagueApiId']]);
         $valid = true;
 
-
-        
-        
-        if (!$homeTeam || !$awayTeam || !$league) {
+        if (!$homeTeam || !$awayTeam || !$league) 
+        {
             $valid = false;   
         }
         else {

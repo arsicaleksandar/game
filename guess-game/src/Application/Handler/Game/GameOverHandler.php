@@ -25,10 +25,7 @@ class GameOverHandler
      */
     public function handle(array $gameFromApi) : bool
     {
-
-       
-
-        
+    
         $homeTeam = $this->teamRepository->findOneBy(['name' => $gameFromApi['homeTeam']]);
         $awayTeam = $this->teamRepository->findOneBy(['name' => $gameFromApi['awayTeam']]);
         $league = $this->leagueRepository->findOneBy(['leagueApiId' => $gameFromApi['leagueApiId']]);

@@ -42,7 +42,7 @@ class FetchScoresCommand extends Command
         $count  = 0;
         /** @var Game $game */
         foreach ($games as $game) {
-            //dd($game);
+           
             try {
                 $checkInDatabase = $this->gameOverHandler->handle($game);
                 if($checkInDatabase)
