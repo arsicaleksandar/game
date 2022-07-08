@@ -31,24 +31,14 @@ class GameOverHandler
         $league = $this->leagueRepository->findOneBy(['leagueApiId' => $gameFromApi['leagueApiId']]);
 
         $valid = true;
+
         if(!$homeTeam || !$awayTeam || !$league || !$gameFromApi['score'])
         {
             $valid = false;  
-            
         }
-
-
-        /** @var Game $game */
-        // $game = $this->gameRepository->findOneBy(
-        //     [
-        //         'homeTeam' => $homeTeam,
-        //         'awayTeam' => $awayTeam,
-        //         'gameTime' => new DateTimeImmutable($gameFromApi['gameTime'])
-        //     ]
-        // );
-
+        
         if ($valid) {
-
+            
             $gameTime = new DateTimeImmutable($gameFromApi['gameTime']);
             $this->gameRepository->save(
                 (new Game())

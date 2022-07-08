@@ -30,21 +30,7 @@ class CreateGameHandler
         $league = $this->leagueRepository->findOneBy(['leagueApiId' => $game['leagueApiId']]);
         $valid = true;
 
-        // if (!$homeTeam) {
-        //     throw new Exception($game['homeTeam']." is not the part of our database");
-        //     //throw new Exception("");
-      
-        // }
-
-        // if (!$awayTeam) {
-        //     throw new Exception($game['awayTeam']." is not the part of our database");
-        //     // throw new Exception("");
-        // }
-
-        // if (!$league) {
-        //     throw new Exception($game['leagueApiId']." League is not the part of our database");
-        // }
-
+        
         // $gameTime = new DateTimeImmutable($game['gameTime']);
 
         //     $this->gameRepository->save(
