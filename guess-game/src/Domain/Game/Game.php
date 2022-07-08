@@ -111,7 +111,7 @@ class Game
         return $this;
     }
 
-    public function completed(string $score)
+    public function completed(?string $score)
     {
         if (new DateTimeImmutable() < $this->getGameTime()) {
             throw new Exception('This game has not started yet');

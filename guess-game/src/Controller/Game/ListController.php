@@ -31,8 +31,6 @@ class ListController extends AbstractController
     {
 
 
-
-
         $games = $this->listGameHandler->handle(
             $request->get('week'),
             $request->get('league')

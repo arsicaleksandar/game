@@ -31,17 +31,6 @@ class CreateGameHandler
         $valid = true;
 
         
-        // $gameTime = new DateTimeImmutable($game['gameTime']);
-
-        //     $this->gameRepository->save(
-        //         (new Game())
-        //             ->setHomeTeam($homeTeam)
-        //             ->setLeague($league)
-        //             ->setAwayTeam($awayTeam)
-        //             ->setGameTime($gameTime)
-        //     );
-
-        
         if (!$homeTeam || !$awayTeam || !$league) {
             $valid = false;   
         }

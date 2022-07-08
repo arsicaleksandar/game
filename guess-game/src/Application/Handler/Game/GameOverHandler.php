@@ -25,6 +25,9 @@ class GameOverHandler
      */
     public function handle(array $gameFromApi) : bool
     {
+
+       
+
         
         $homeTeam = $this->teamRepository->findOneBy(['name' => $gameFromApi['homeTeam']]);
         $awayTeam = $this->teamRepository->findOneBy(['name' => $gameFromApi['awayTeam']]);
@@ -32,22 +35,27 @@ class GameOverHandler
 
         $valid = true;
 
-        if(!$homeTeam || !$awayTeam || !$league || !$gameFromApi['score'])
+        if(!$homeTeam || !$awayTeam || !$league)
         {
             $valid = false;  
         }
         
+       
         if ($valid) {
-            
-            $gameTime = new DateTimeImmutable($gameFromApi['gameTime']);
-            $this->gameRepository->save(
-                (new Game())
-                    ->setHomeTeam($homeTeam)
-                    ->setLeague($league)
-                    ->setAwayTeam($awayTeam)
-                    ->setGameTime($gameTime)
-                    ->setScore($gameFromApi['score'] ? $gameFromApi['score'] : null)
+            $game =  $league = $this->gameRepository->findOneBy(
+                [
+                    'league' => $league->getId(),
+                    'homeTeam' => $homeTeam,
+                    'awayTeam' => $awayTeam,
+                    'gameTime' => new DateTimeImmutable($gameFromApi['gameTime'])
+                ]
             );
+
+            if($game)
+            {
+                $game->completed($gameFromApi['score'] ? $gameFromApi['score'] : null);
+                $this->gameRepository->save($game);
+            }
         }
 
         return $valid;
