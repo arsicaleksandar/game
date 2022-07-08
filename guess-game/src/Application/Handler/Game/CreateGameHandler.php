@@ -37,7 +37,7 @@ class CreateGameHandler
             $valid = false;   
         }
         else {
-            
+
             $gameTime = new DateTimeImmutable($game['gameTime']);
             $game = $this->gameRepository->findOneBy(
                 [
@@ -57,7 +57,8 @@ class CreateGameHandler
                         ->setAwayTeam($awayTeam)
                         ->setGameTime($gameTime)
                 );
-
+            }
+            else {
                 $valid = false;
             }
            
