@@ -39,10 +39,9 @@ class GameOverHandler
         {
             $valid = false;  
         }
-        
-       
-        if ($valid) {
-            $game =  $league = $this->gameRepository->findOneBy(
+        else{
+           
+            $game = $this->gameRepository->findOneBy(
                 [
                     'league' => $league->getId(),
                     'homeTeam' => $homeTeam,
@@ -50,11 +49,14 @@ class GameOverHandler
                     'gameTime' => new DateTimeImmutable($gameFromApi['gameTime'])
                 ]
             );
-
+            
             if($game)
             {
                 $game->completed($gameFromApi['score'] ? $gameFromApi['score'] : null);
                 $this->gameRepository->save($game);
+            }
+            else{
+                $valid = false;
             }
         }
 

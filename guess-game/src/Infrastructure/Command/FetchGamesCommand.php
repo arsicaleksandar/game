@@ -40,7 +40,7 @@ class FetchGamesCommand extends Command
         $count = 0;
         
         foreach ($games as $game) {     
-            try {
+            try {              
                 $checkInDatabase = $this->createGameHandler->handle($game);
 
                 if($checkInDatabase)

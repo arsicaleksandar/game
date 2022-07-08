@@ -30,19 +30,37 @@ class CreateGameHandler
         $league = $this->leagueRepository->findOneBy(['leagueApiId' => $game['leagueApiId']]);
         $valid = true;
 
+
+        
         
         if (!$homeTeam || !$awayTeam || !$league) {
             $valid = false;   
         }
         else {
+            
             $gameTime = new DateTimeImmutable($game['gameTime']);
-            $this->gameRepository->save(
-                (new Game())
-                    ->setHomeTeam($homeTeam)
-                    ->setLeague($league)
-                    ->setAwayTeam($awayTeam)
-                    ->setGameTime($gameTime)
+            $game = $this->gameRepository->findOneBy(
+                [
+                    'league' => $league->getId(),
+                    'homeTeam' => $homeTeam,
+                    'awayTeam' => $awayTeam,
+                    'gameTime' => $gameTime 
+                ]
             );
+
+            if(!$game)
+            {
+                $this->gameRepository->save(
+                    (new Game())
+                        ->setHomeTeam($homeTeam)
+                        ->setLeague($league)
+                        ->setAwayTeam($awayTeam)
+                        ->setGameTime($gameTime)
+                );
+
+                $valid = false;
+            }
+           
         }
 
         return $valid;
